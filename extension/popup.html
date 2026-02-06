@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phone Dialer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <span class="phone-icon">📞</span>
+        <h1>Phone Dialer</h1>
+      </div>
+      <span class="badge">Base44</span>
+    </header>
+
+    <!-- Login Section -->
+    <section id="login-section" class="section">
+      <p class="info-text">התחבר לחשבון Base44 שלך כדי להתחיל</p>
+      <div class="form-group">
+        <label for="email">אימייל</label>
+        <input type="email" id="email" placeholder="you@example.com" dir="ltr">
+      </div>
+      <div class="form-group">
+        <label for="password">סיסמה</label>
+        <input type="password" id="password" placeholder="••••••••" dir="ltr">
+      </div>
+      <button id="login-btn" class="btn btn-primary">התחבר</button>
+      <p id="login-error" class="error-text hidden"></p>
+    </section>
+
+    <!-- Main Section (shown when logged in) -->
+    <section id="main-section" class="section hidden">
+      <!-- Status -->
+      <div id="status-bar" class="status-bar">
+        <span class="status-dot active"></span>
+        <span id="status-text">מחובר</span>
+        <button id="logout-btn" class="btn-link">התנתק</button>
+      </div>
+
+      <!-- Phone Config -->
+      <div class="card">
+        <h2>הטלפון שלי</h2>
+        <div class="form-group">
+          <label for="phone-number">מספר טלפון</label>
+          <input type="tel" id="phone-number" placeholder="+972501234567" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label for="display-name">שם תצוגה</label>
+          <input type="text" id="display-name" placeholder="הטלפון שלי">
+        </div>
+        <div class="form-group toggle-group">
+          <label for="twilio-toggle">חיוג דרך Twilio</label>
+          <label class="toggle">
+            <input type="checkbox" id="twilio-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <button id="save-config-btn" class="btn btn-primary">שמור</button>
+        <p id="config-status" class="status-text hidden"></p>
+      </div>
+
+      <!-- Quick Dial -->
+      <div class="card">
+        <h2>חיוג מהיר</h2>
+        <div class="form-group">
+          <input type="tel" id="quick-dial-number" placeholder="הכנס מספר לחיוג..." dir="ltr">
+        </div>
+        <button id="quick-dial-btn" class="btn btn-success">
+          <span class="phone-icon-small">📞</span> חייג
+        </button>
+      </div>
+
+      <!-- Recent Calls -->
+      <div class="card">
+        <h2>שיחות אחרונות</h2>
+        <div id="call-log-list" class="call-log-list">
+          <p class="empty-state">אין שיחות אחרונות</p>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="card">
+        <h2>הגדרות</h2>
+        <div class="form-group toggle-group">
+          <label for="auto-detect">זיהוי אוטומטי של מספרים</label>
+          <label class="toggle">
+            <input type="checkbox" id="auto-detect" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="form-group toggle-group">
+          <label for="highlight-numbers">הדגשת מספרי טלפון</label>
+          <label class="toggle">
+            <input type="checkbox" id="highlight-numbers" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="base44-client.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

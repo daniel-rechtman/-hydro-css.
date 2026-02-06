@@ -1,0 +1,103 @@
+/* Phone Dialer - Content Script Styles */
+
+.phone-dialer-highlight {
+  position: relative;
+  cursor: pointer;
+  color: #2E7D32;
+  background: rgba(76, 175, 80, 0.08);
+  border-bottom: 2px solid #4CAF50;
+  padding: 1px 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline;
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+.phone-dialer-highlight:hover {
+  background: rgba(76, 175, 80, 0.18);
+  color: #1B5E20;
+  border-bottom-color: #2E7D32;
+}
+
+.phone-dialer-highlight .phone-dialer-icon {
+  display: none;
+  margin-right: 4px;
+  font-size: 0.85em;
+}
+
+.phone-dialer-highlight:hover .phone-dialer-icon {
+  display: inline;
+}
+
+/* Calling animation */
+.phone-dialer-calling {
+  animation: phone-dialer-pulse 1s infinite;
+  background: rgba(33, 150, 243, 0.15) !important;
+  border-bottom-color: #2196F3 !important;
+  color: #1565C0 !important;
+}
+
+@keyframes phone-dialer-pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Successfully called */
+.phone-dialer-called {
+  background: rgba(76, 175, 80, 0.2) !important;
+  border-bottom-color: #4CAF50 !important;
+  color: #2E7D32 !important;
+}
+
+/* Error state */
+.phone-dialer-error {
+  background: rgba(211, 47, 47, 0.1) !important;
+  border-bottom-color: #d32f2f !important;
+  color: #c62828 !important;
+}
+
+/* Tooltip on hover */
+.phone-dialer-highlight::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10000;
+  direction: rtl;
+}
+
+.phone-dialer-highlight:hover::after {
+  opacity: 1;
+}
+
+/* Small triangle for tooltip */
+.phone-dialer-highlight::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #333;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10000;
+}
+
+.phone-dialer-highlight:hover::before {
+  opacity: 1;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "phone-dialer",
+  "description": "Browser extension that connects your phone number to the browser - click any phone number to dial through your phone",
+  "entitiesDir": "./entities",
+  "functionsDir": "./functions"
+}

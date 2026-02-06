@@ -1,0 +1,53 @@
+{
+  "name": "call_log",
+  "type": "object",
+  "title": "Call Log",
+  "description": "Logs of phone calls initiated through the browser extension",
+  "properties": {
+    "target_number": {
+      "type": "string",
+      "description": "The phone number that was dialed",
+      "minLength": 3,
+      "maxLength": 20
+    },
+    "source_url": {
+      "type": "string",
+      "description": "The URL of the page where the number was clicked",
+      "format": "uri",
+      "maxLength": 2000
+    },
+    "source_page_title": {
+      "type": "string",
+      "description": "Title of the page where the number was found",
+      "maxLength": 500
+    },
+    "status": {
+      "type": "string",
+      "enum": ["initiated", "connected", "failed", "cancelled"],
+      "default": "initiated"
+    },
+    "call_method": {
+      "type": "string",
+      "enum": ["tel_link", "twilio_bridge"],
+      "description": "How the call was initiated",
+      "default": "tel_link"
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Call duration in seconds (if available)"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Name associated with the number (if detected on page)",
+      "maxLength": 200
+    }
+  },
+  "required": ["target_number"],
+  "rls": {
+    "create": true,
+    "read": { "created_by_id": "{{user.id}}" },
+    "update": { "created_by_id": "{{user.id}}" },
+    "delete": { "created_by_id": "{{user.id}}" }
+  }
+}
