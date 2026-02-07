@@ -1,21 +1,10 @@
 /**
  * Phone Dialer Extension - Popup Logic
+ * Works entirely with Chrome local storage (no login required)
  */
 document.addEventListener("DOMContentLoaded", async () => {
-  const loginSection = document.getElementById("login-section");
-  const mainSection = document.getElementById("main-section");
-
-  // Login elements
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const loginBtn = document.getElementById("login-btn");
-  const loginError = document.getElementById("login-error");
-
-  // Main elements
-  const logoutBtn = document.getElementById("logout-btn");
   const phoneNumberInput = document.getElementById("phone-number");
   const displayNameInput = document.getElementById("display-name");
-  const twilioToggle = document.getElementById("twilio-toggle");
   const saveConfigBtn = document.getElementById("save-config-btn");
   const configStatus = document.getElementById("config-status");
   const quickDialNumber = document.getElementById("quick-dial-number");
@@ -24,96 +13,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   const autoDetect = document.getElementById("auto-detect");
   const highlightNumbers = document.getElementById("highlight-numbers");
 
-  // Initialize Base44 client
-  const isLoggedIn = await Base44Client.init();
-
-  if (isLoggedIn) {
-    showMainSection();
-  } else {
-    showLoginSection();
-  }
-
-  // --- Login ---
-  loginBtn.addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    if (!email || !password) {
-      showError(loginError, "נא למלא אימייל וסיסמה");
-      return;
-    }
-
-    loginBtn.disabled = true;
-    loginBtn.textContent = "מתחבר...";
-
-    try {
-      await Base44Client.auth.login(email, password);
-      showMainSection();
-    } catch (err) {
-      showError(loginError, err.message || "שגיאה בהתחברות");
-    } finally {
-      loginBtn.disabled = false;
-      loginBtn.textContent = "התחבר";
-    }
-  });
-
-  // --- Logout ---
-  logoutBtn.addEventListener("click", async () => {
-    await Base44Client.auth.logout();
-    showLoginSection();
-  });
+  // Load saved data
+  await loadPhoneConfig();
+  await loadCallLog();
+  await loadSettings();
 
   // --- Save Phone Config ---
   saveConfigBtn.addEventListener("click", async () => {
     const phoneNumber = phoneNumberInput.value.trim();
     const displayName = displayNameInput.value.trim() || "הטלפון שלי";
-    const twilioEnabled = twilioToggle.checked;
 
     if (!phoneNumber) {
       showStatus(configStatus, "נא להכניס מספר טלפון", "error");
       return;
     }
 
-    // Validate E.164 format
-    if (!/^\+[1-9]\d{6,14}$/.test(phoneNumber)) {
-      showStatus(configStatus, "פורמט לא תקין. דוגמה: +972501234567", "error");
+    // Validate phone format (flexible - allows local and international)
+    const cleaned = phoneNumber.replace(/[\s\-()]/g, "");
+    if (cleaned.replace(/\D/g, "").length < 7) {
+      showStatus(configStatus, "מספר טלפון קצר מדי", "error");
       return;
     }
 
     saveConfigBtn.disabled = true;
     saveConfigBtn.textContent = "שומר...";
 
-    try {
-      // Check if config already exists
-      const existing = await Base44Client.entities.PhoneConfig.filter({ is_active: true }, { limit: 1 });
+    await chrome.storage.local.set({
+      phone_config: { phone_number: phoneNumber, display_name: displayName },
+    });
 
-      if (existing && existing.length > 0) {
-        await Base44Client.entities.PhoneConfig.update(existing[0].id, {
-          phone_number: phoneNumber,
-          display_name: displayName,
-          twilio_enabled: twilioEnabled,
-        });
-      } else {
-        await Base44Client.entities.PhoneConfig.create({
-          phone_number: phoneNumber,
-          display_name: displayName,
-          is_active: true,
-          twilio_enabled: twilioEnabled,
-        });
-      }
-
-      // Save to local storage for quick access by content script
-      await chrome.storage.local.set({
-        phone_config: { phone_number: phoneNumber, display_name: displayName, twilio_enabled: twilioEnabled },
-      });
-
-      showStatus(configStatus, "נשמר בהצלחה!", "success");
-    } catch (err) {
-      showStatus(configStatus, err.message || "שגיאה בשמירה", "error");
-    } finally {
-      saveConfigBtn.disabled = false;
-      saveConfigBtn.textContent = "שמור";
-    }
+    showStatus(configStatus, "נשמר בהצלחה!", "success");
+    saveConfigBtn.disabled = false;
+    saveConfigBtn.textContent = "שמור";
   });
 
   // --- Quick Dial ---
@@ -121,50 +52,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     const number = quickDialNumber.value.trim();
     if (!number) return;
 
-    quickDialBtn.disabled = true;
+    const normalized = normalizePhone(number);
 
-    try {
-      const result = await Base44Client.functions.invoke("initiate-call", {
-        target_number: number,
-        source_url: "popup://quick-dial",
-        source_page_title: "חיוג מהיר",
-      });
+    // Log the call
+    await addCallToLog(normalized, "חיוג מהיר", "");
 
-      if (result.method === "tel_link") {
-        // Open tel: link
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          if (tabs[0]) {
-            chrome.tabs.update(tabs[0].id, { url: result.tel_uri });
-          }
-        });
+    // Open tel: link
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]) {
+        chrome.tabs.update(tabs[0].id, { url: `tel:${normalized}` });
       }
+    });
 
-      showStatus(configStatus, "שיחה יצאה!", "success");
-      loadCallLog();
-    } catch (err) {
-      showStatus(configStatus, err.message || "שגיאה בחיוג", "error");
-    } finally {
-      quickDialBtn.disabled = false;
-    }
+    showStatus(configStatus, "מחייג...", "success");
+    await loadCallLog();
   });
 
   // --- Settings ---
   autoDetect.addEventListener("change", async () => {
     await chrome.storage.local.set({ auto_detect: autoDetect.checked });
-    // Notify content scripts
-    chrome.tabs.query({}, (tabs) => {
-      tabs.forEach((tab) => {
-        chrome.tabs.sendMessage(tab.id, {
-          type: "SETTINGS_CHANGED",
-          auto_detect: autoDetect.checked,
-          highlight_numbers: highlightNumbers.checked,
-        }).catch(() => {});
-      });
-    });
+    notifyContentScripts();
   });
 
   highlightNumbers.addEventListener("change", async () => {
     await chrome.storage.local.set({ highlight_numbers: highlightNumbers.checked });
+    notifyContentScripts();
+  });
+
+  function notifyContentScripts() {
     chrome.tabs.query({}, (tabs) => {
       tabs.forEach((tab) => {
         chrome.tabs.sendMessage(tab.id, {
@@ -174,77 +89,62 @@ document.addEventListener("DOMContentLoaded", async () => {
         }).catch(() => {});
       });
     });
-  });
+  }
 
   // --- Helper Functions ---
-  function showLoginSection() {
-    loginSection.classList.remove("hidden");
-    mainSection.classList.add("hidden");
-  }
-
-  async function showMainSection() {
-    loginSection.classList.add("hidden");
-    mainSection.classList.remove("hidden");
-    await loadPhoneConfig();
-    await loadCallLog();
-    await loadSettings();
-  }
-
   async function loadPhoneConfig() {
-    try {
-      const configs = await Base44Client.entities.PhoneConfig.filter({ is_active: true }, { limit: 1 });
-      if (configs && configs.length > 0) {
-        const config = configs[0];
-        phoneNumberInput.value = config.phone_number || "";
-        displayNameInput.value = config.display_name || "";
-        twilioToggle.checked = config.twilio_enabled || false;
-      }
-    } catch (err) {
-      console.error("Failed to load phone config:", err);
+    const data = await chrome.storage.local.get(["phone_config"]);
+    if (data.phone_config) {
+      phoneNumberInput.value = data.phone_config.phone_number || "";
+      displayNameInput.value = data.phone_config.display_name || "";
     }
   }
 
   async function loadCallLog() {
-    try {
-      const logs = await Base44Client.entities.CallLog.list({
-        sort: "-created_date",
-        limit: 10,
-      });
+    const data = await chrome.storage.local.get(["call_log"]);
+    const logs = data.call_log || [];
 
-      if (!logs || logs.length === 0) {
-        callLogList.innerHTML = '<p class="empty-state">אין שיחות אחרונות</p>';
-        return;
-      }
-
-      callLogList.innerHTML = logs
-        .map((log) => {
-          const date = new Date(log.created_date);
-          const timeStr = date.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" });
-          const dateStr = date.toLocaleDateString("he-IL", { day: "numeric", month: "short" });
-          const statusLabels = {
-            initiated: "יצא",
-            connected: "חובר",
-            failed: "נכשל",
-            cancelled: "בוטל",
-          };
-
-          return `
-            <div class="call-log-item">
-              <div>
-                <div class="call-log-number">${log.target_number}</div>
-                ${log.contact_name ? `<div style="font-size:11px;color:#666">${log.contact_name}</div>` : ""}
-              </div>
-              <div style="text-align:left">
-                <span class="call-log-status ${log.status}">${statusLabels[log.status] || log.status}</span>
-                <div class="call-log-time">${dateStr} ${timeStr}</div>
-              </div>
-            </div>
-          `;
-        })
-        .join("");
-    } catch (err) {
-      console.error("Failed to load call log:", err);
+    if (logs.length === 0) {
+      callLogList.innerHTML = '<p class="empty-state">אין שיחות אחרונות</p>';
+      return;
     }
+
+    callLogList.innerHTML = logs
+      .slice(0, 20)
+      .map((log) => {
+        const date = new Date(log.timestamp);
+        const timeStr = date.toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" });
+        const dateStr = date.toLocaleDateString("he-IL", { day: "numeric", month: "short" });
+
+        return `
+          <div class="call-log-item">
+            <div>
+              <div class="call-log-number">${log.target_number}</div>
+              ${log.source_page_title ? `<div style="font-size:11px;color:#666">${log.source_page_title}</div>` : ""}
+            </div>
+            <div style="text-align:left">
+              <span class="call-log-status initiated">יצא</span>
+              <div class="call-log-time">${dateStr} ${timeStr}</div>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  async function addCallToLog(targetNumber, pageTitle, sourceUrl) {
+    const data = await chrome.storage.local.get(["call_log"]);
+    const logs = data.call_log || [];
+
+    logs.unshift({
+      target_number: targetNumber,
+      source_page_title: pageTitle,
+      source_url: sourceUrl,
+      timestamp: Date.now(),
+    });
+
+    // Keep last 50 entries
+    await chrome.storage.local.set({ call_log: logs.slice(0, 50) });
   }
 
   async function loadSettings() {
@@ -253,10 +153,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     highlightNumbers.checked = settings.highlight_numbers !== false;
   }
 
-  function showError(element, message) {
-    element.textContent = message;
-    element.classList.remove("hidden");
-    setTimeout(() => element.classList.add("hidden"), 5000);
+  function normalizePhone(number) {
+    let cleaned = number.replace(/[\s\-()]/g, "");
+    if (cleaned.startsWith("0") && !cleaned.startsWith("00")) {
+      cleaned = "+972" + cleaned.slice(1);
+    }
+    return cleaned;
   }
 
   function showStatus(element, message, type) {

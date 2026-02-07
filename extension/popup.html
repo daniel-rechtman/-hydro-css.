@@ -16,30 +16,7 @@
       <span class="badge">Base44</span>
     </header>
 
-    <!-- Login Section -->
-    <section id="login-section" class="section">
-      <p class="info-text">התחבר לחשבון Base44 שלך כדי להתחיל</p>
-      <div class="form-group">
-        <label for="email">אימייל</label>
-        <input type="email" id="email" placeholder="you@example.com" dir="ltr">
-      </div>
-      <div class="form-group">
-        <label for="password">סיסמה</label>
-        <input type="password" id="password" placeholder="••••••••" dir="ltr">
-      </div>
-      <button id="login-btn" class="btn btn-primary">התחבר</button>
-      <p id="login-error" class="error-text hidden"></p>
-    </section>
-
-    <!-- Main Section (shown when logged in) -->
-    <section id="main-section" class="section hidden">
-      <!-- Status -->
-      <div id="status-bar" class="status-bar">
-        <span class="status-dot active"></span>
-        <span id="status-text">מחובר</span>
-        <button id="logout-btn" class="btn-link">התנתק</button>
-      </div>
-
+    <section id="main-section" class="section">
       <!-- Phone Config -->
       <div class="card">
         <h2>הטלפון שלי</h2>
@@ -50,13 +27,6 @@
         <div class="form-group">
           <label for="display-name">שם תצוגה</label>
           <input type="text" id="display-name" placeholder="הטלפון שלי">
-        </div>
-        <div class="form-group toggle-group">
-          <label for="twilio-toggle">חיוג דרך Twilio</label>
-          <label class="toggle">
-            <input type="checkbox" id="twilio-toggle">
-            <span class="toggle-slider"></span>
-          </label>
         </div>
         <button id="save-config-btn" class="btn btn-primary">שמור</button>
         <p id="config-status" class="status-text hidden"></p>
@@ -102,7 +72,6 @@
     </section>
   </div>
 
-  <script src="base44-client.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
