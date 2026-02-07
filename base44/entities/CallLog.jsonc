@@ -1,5 +1,5 @@
 {
-  "name": "call_log",
+  "name": "calllog",
   "type": "object",
   "title": "Call Log",
   "description": "Logs of phone calls initiated through the browser extension",

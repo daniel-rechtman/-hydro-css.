@@ -1,5 +1,5 @@
 {
-  "name": "phone_config",
+  "name": "phoneconfig",
   "type": "object",
   "title": "Phone Configuration",
   "description": "Stores the user's phone number and dialer preferences",
