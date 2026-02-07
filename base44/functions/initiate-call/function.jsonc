@@ -1,5 +1,5 @@
 {
   "name": "initiate-call",
   "description": "Initiates a phone call by bridging the user's phone with the target number via Twilio",
-  "entry_point": "index.ts"
+  "entry": "index.ts"
 }
