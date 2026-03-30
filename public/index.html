@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WIXX - מערכת ניהול מחסן</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h1 class="logo">WIXX</h1>
+      <span class="logo-sub">ניהול מחסן</span>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item active" data-view="dashboard">
+        <span class="nav-icon">📊</span>
+        <span>דשבורד</span>
+      </li>
+      <li class="nav-item" data-view="scan">
+        <span class="nav-icon">📷</span>
+        <span>סריקה</span>
+      </li>
+      <li class="nav-item" data-view="products">
+        <span class="nav-icon">👟</span>
+        <span>קטלוג מוצרים</span>
+      </li>
+      <li class="nav-item" data-view="locations">
+        <span class="nav-icon">📍</span>
+        <span>איתורים</span>
+      </li>
+      <li class="nav-item" data-view="inventory">
+        <span class="nav-icon">📦</span>
+        <span>מלאי</span>
+      </li>
+      <li class="nav-item" data-view="containers">
+        <span class="nav-icon">🚢</span>
+        <span>קונטיינרים</span>
+      </li>
+      <li class="nav-item" data-view="exceptions">
+        <span class="nav-icon">⚠️</span>
+        <span>חריגים</span>
+      </li>
+      <li class="nav-item" data-view="reports">
+        <span class="nav-icon">📋</span>
+        <span>דוחות</span>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="view active">
+      <h2 class="view-title">דשבורד</h2>
+      <div class="stats-grid" id="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-scans-today">0</div>
+          <div class="stat-label">סריקות היום</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-open-locations">0</div>
+          <div class="stat-label">איתורים פתוחים</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-full-locations">0</div>
+          <div class="stat-label">איתורים מלאים</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total-inventory">0</div>
+          <div class="stat-label">סה"כ יחידות במלאי</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total-products">0</div>
+          <div class="stat-label">מוצרים בקטלוג</div>
+        </div>
+        <div class="stat-card clickable" id="stat-exceptions-card">
+          <div class="stat-value" id="stat-open-exceptions">0</div>
+          <div class="stat-label">חריגים פתוחים</div>
+        </div>
+      </div>
+
+      <div class="dashboard-section">
+        <h3>סשן קליטה פעיל</h3>
+        <div id="active-session-info" class="info-box">אין סשן קליטה פעיל</div>
+      </div>
+
+      <div class="dashboard-section">
+        <h3>סריקות אחרונות</h3>
+        <table class="data-table" id="recent-scans-table">
+          <thead>
+            <tr><th>זמן</th><th>מותג</th><th>דגם</th><th>מידה</th><th>צבע</th><th>איתור</th></tr>
+          </thead>
+          <tbody id="recent-scans-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Scan View -->
+    <div id="view-scan" class="view">
+      <h2 class="view-title">סריקת ברקוד</h2>
+
+      <div id="scan-session-bar" class="session-bar">
+        <span id="scan-session-info">אין סשן פעיל</span>
+        <button class="btn btn-sm" id="btn-new-session">פתח סשן קליטה</button>
+        <button class="btn btn-sm btn-danger hidden" id="btn-end-session">סגור סשן</button>
+      </div>
+
+      <div class="scan-area">
+        <div class="scan-input-wrapper">
+          <input type="text" id="barcode-input" class="scan-input" placeholder="סרוק ברקוד כאן..." autofocus>
+          <button class="btn btn-primary" id="btn-scan">סרוק</button>
+        </div>
+
+        <div id="scan-result" class="scan-result hidden">
+          <div id="scan-product-info" class="product-card"></div>
+          <div id="scan-location-info" class="location-card"></div>
+          <div class="scan-actions" id="scan-actions">
+            <button class="btn btn-success btn-lg" id="btn-confirm-scan">אשר הכנסה לאיתור</button>
+            <button class="btn btn-warning" id="btn-location-full">איתור מלא</button>
+            <button class="btn btn-secondary" id="btn-new-location">פתח איתור חדש</button>
+          </div>
+        </div>
+
+        <div id="scan-exception" class="scan-exception hidden">
+          <div class="exception-icon">⚠️</div>
+          <div class="exception-text">ברקוד לא מזוהה</div>
+          <div id="exception-barcode" class="exception-barcode"></div>
+          <button class="btn btn-secondary" id="btn-dismiss-exception">המשך סריקה</button>
+        </div>
+
+        <div id="scan-success" class="scan-success hidden">
+          <div class="success-icon">✅</div>
+          <div class="success-text" id="success-message"></div>
+        </div>
+      </div>
+
+      <div class="scan-history">
+        <div class="scan-history-header">
+          <h3>היסטוריית סריקות בסשן</h3>
+          <button class="btn btn-sm btn-danger" id="btn-undo-scan">בטל סריקה אחרונה</button>
+        </div>
+        <div id="scan-history-list" class="scan-history-list"></div>
+        <div class="scan-counter">
+          נסרקו: <strong id="scan-count">0</strong> יחידות בסשן
+        </div>
+      </div>
+    </div>
+
+    <!-- Products View -->
+    <div id="view-products" class="view">
+      <h2 class="view-title">קטלוג מוצרים</h2>
+      <div class="toolbar">
+        <input type="text" id="products-search" class="search-input" placeholder="חפש לפי ברקוד, מותג, דגם...">
+        <button class="btn btn-primary" id="btn-add-product">הוסף מוצר</button>
+        <button class="btn btn-secondary" id="btn-import-csv">העלאת CSV</button>
+        <input type="file" id="csv-file-input" accept=".csv" class="hidden">
+      </div>
+      <table class="data-table" id="products-table">
+        <thead>
+          <tr><th>ברקוד</th><th>מותג</th><th>דגם</th><th>צבע</th><th>מידה</th><th>SKU</th><th>פעולות</th></tr>
+        </thead>
+        <tbody id="products-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Locations View -->
+    <div id="view-locations" class="view">
+      <h2 class="view-title">ניהול איתורים</h2>
+      <div class="toolbar">
+        <input type="text" id="locations-search" class="search-input" placeholder="חפש איתור...">
+        <select id="locations-status-filter" class="filter-select">
+          <option value="">כל הסטטוסים</option>
+          <option value="open">פתוח</option>
+          <option value="full">מלא</option>
+          <option value="closed">סגור</option>
+        </select>
+        <button class="btn btn-primary" id="btn-add-location">הוסף איתור</button>
+      </div>
+      <table class="data-table" id="locations-table">
+        <thead>
+          <tr><th>קוד איתור</th><th>אזור</th><th>מוצר משויך</th><th>כמות</th><th>קיבולת</th><th>סטטוס</th><th>פעולות</th></tr>
+        </thead>
+        <tbody id="locations-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Inventory View -->
+    <div id="view-inventory" class="view">
+      <h2 class="view-title">מלאי</h2>
+      <div class="toolbar">
+        <input type="text" id="inventory-search" class="search-input" placeholder="חפש לפי מוצר או איתור...">
+      </div>
+      <table class="data-table" id="inventory-table">
+        <thead>
+          <tr><th>איתור</th><th>ברקוד</th><th>מותג</th><th>דגם</th><th>צבע</th><th>מידה</th><th>כמות</th></tr>
+        </thead>
+        <tbody id="inventory-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Containers View -->
+    <div id="view-containers" class="view">
+      <h2 class="view-title">קונטיינרים</h2>
+      <div class="toolbar">
+        <button class="btn btn-primary" id="btn-add-container">הוסף קונטיינר</button>
+      </div>
+      <table class="data-table" id="containers-table">
+        <thead>
+          <tr><th>מספר קונטיינר</th><th>תאריך הגעה</th><th>ספק</th><th>כמות משוערת</th><th>נסרקו</th><th>סטטוס</th><th>פעולות</th></tr>
+        </thead>
+        <tbody id="containers-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Exceptions View -->
+    <div id="view-exceptions" class="view">
+      <h2 class="view-title">חריגים</h2>
+      <div class="toolbar">
+        <select id="exceptions-status-filter" class="filter-select">
+          <option value="open">פתוחים</option>
+          <option value="resolved">טופלו</option>
+          <option value="">הכל</option>
+        </select>
+      </div>
+      <table class="data-table" id="exceptions-table">
+        <thead>
+          <tr><th>ברקוד</th><th>סוג</th><th>סטטוס</th><th>תאריך</th><th>הערות</th><th>פעולות</th></tr>
+        </thead>
+        <tbody id="exceptions-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Reports View -->
+    <div id="view-reports" class="view">
+      <h2 class="view-title">דוחות</h2>
+      <div class="reports-grid">
+        <div class="report-card" data-report="by-location">
+          <h3>מלאי לפי איתור</h3>
+          <p>כל האיתורים, המוצר שבהם והכמות</p>
+          <button class="btn btn-primary">הצג דוח</button>
+          <a href="/api/reports/export/locations" class="btn btn-secondary">ייצוא CSV</a>
+        </div>
+        <div class="report-card" data-report="by-product">
+          <h3>מלאי לפי מוצר</h3>
+          <p>כל המוצרים, הכמות הכוללת והאיתורים</p>
+          <button class="btn btn-primary">הצג דוח</button>
+          <a href="/api/reports/export/inventory" class="btn btn-secondary">ייצוא CSV</a>
+        </div>
+        <div class="report-card" data-report="by-container">
+          <h3>קליטה לפי קונטיינר</h3>
+          <p>סיכום סריקות, ברקודים ייחודיים וחריגים</p>
+          <button class="btn btn-primary">הצג דוח</button>
+        </div>
+        <div class="report-card">
+          <h3>ייצוא קטלוג מוצרים</h3>
+          <p>כל המוצרים הפעילים בקטלוג</p>
+          <a href="/api/reports/export/products" class="btn btn-primary">ייצוא CSV</a>
+        </div>
+      </div>
+      <div id="report-output" class="report-output hidden"></div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">כותרת</h3>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
