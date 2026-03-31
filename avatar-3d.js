@@ -127,20 +127,14 @@
         switch (target) {
             case 'shirt':
                 root.style.setProperty('--shirt-color', color);
-                document.querySelectorAll('.torso-face, .arm-face:not(.bottom), .shirt-collar').forEach((el) => {
-                    el.style.backgroundColor = '';
-                });
-                // Re-apply using CSS variable
-                root.querySelectorAll('.torso-face').forEach((el) => {
-                    el.style.setProperty('background', '');
-                });
                 applyToFaces('.torso-face', color);
                 applyToFaces('.arm-face:not(.bottom):not(.avatar-hand .arm-face)', color);
-                document.querySelectorAll('.shirt-collar').forEach((el) => {
+                break;
+            case 'cap':
+                root.style.setProperty('--cap-color', color);
+                document.querySelectorAll('.cap-face, .cap-brim').forEach((el) => {
                     el.style.backgroundColor = color;
-                    el.style.filter = 'brightness(1.15)';
                 });
-                document.querySelector('.shirt-design').style.borderColor = `rgba(255,255,255,0.4)`;
                 break;
             case 'hair':
                 root.style.setProperty('--hair-color', color);

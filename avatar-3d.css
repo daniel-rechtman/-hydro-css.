@@ -88,40 +88,40 @@
 }
 
 .head-face.front {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     transform: translateZ(40px);
     border-radius: 8px 8px 12px 12px;
 }
 
 .head-face.back {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.85);
     transform: rotateY(180deg) translateZ(40px);
     border-radius: 8px;
 }
 
 .head-face.left {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.9);
     width: 80px;
     transform: rotateY(-90deg) translateZ(40px);
 }
 
 .head-face.right {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.9);
     width: 80px;
     transform: rotateY(90deg) translateZ(40px);
 }
 
 .head-face.top {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(1.05);
     transform: rotateX(90deg) translateZ(40px);
 }
 
 .head-face.bottom {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.8);
     transform: rotateX(-90deg) translateZ(40px);
 }
@@ -144,7 +144,7 @@
 .pupil {
     width: 10px;
     height: 10px;
-    background: #333;
+    background: #5D4037;
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -182,7 +182,7 @@
     position: absolute;
     width: 8px;
     height: 6px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.88);
     border-radius: 50%;
     top: 44px;
@@ -193,22 +193,22 @@
 /* === Hair === */
 .hair-top {
     position: absolute;
-    width: 88px;
-    height: 30px;
-    background: var(--hair-color, #3E2723);
-    top: -8px;
-    left: -4px;
-    border-radius: 12px 12px 0 0;
+    width: 86px;
+    height: 12px;
+    background: var(--hair-color, #212121);
+    top: -4px;
+    left: -3px;
+    border-radius: 8px 8px 0 0;
     transform: translateZ(42px);
-    z-index: 10;
+    z-index: 5;
 }
 
 .hair-side {
     position: absolute;
-    width: 12px;
-    height: 50px;
-    background: var(--hair-color, #3E2723);
-    top: -5px;
+    width: 8px;
+    height: 30px;
+    background: var(--hair-color, #212121);
+    top: -2px;
 }
 
 .hair-left {
@@ -228,7 +228,7 @@
     position: absolute;
     width: 30px;
     height: 16px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.9);
     top: -80px;
     left: -15px;
@@ -253,77 +253,136 @@
 }
 
 .torso-face.front {
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     transform: translateZ(25px);
     border-radius: 4px 4px 6px 6px;
     overflow: hidden;
 }
 
 .torso-face.back {
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.8);
     transform: rotateY(180deg) translateZ(25px);
 }
 
 .torso-face.left {
     width: 50px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.85);
     transform: rotateY(-90deg) translateZ(45px);
 }
 
 .torso-face.right {
     width: 50px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.85);
     transform: rotateY(90deg) translateZ(45px);
 }
 
 .torso-face.top {
     height: 50px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(1.05);
     transform: rotateX(90deg) translateZ(25px);
 }
 
 .torso-face.bottom {
     height: 50px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.75);
     transform: rotateX(-90deg) translateZ(75px);
 }
 
-/* Shirt design */
-.shirt-design {
+/* === Stubble / Beard === */
+.stubble {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    border: 3px solid rgba(255,255,255,0.4);
-    border-radius: 50%;
-    top: 30px;
+    width: 50px;
+    height: 22px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
+    border-radius: 0 0 12px 12px;
+    background: repeating-radial-gradient(
+        circle at 2px 2px,
+        rgba(60, 50, 40, 0.35) 0px,
+        rgba(60, 50, 40, 0.35) 0.5px,
+        transparent 0.5px,
+        transparent 3px
+    );
+    pointer-events: none;
 }
 
-.shirt-collar {
+/* === Baseball Cap === */
+.cap {
     position: absolute;
-    width: 20px;
-    height: 15px;
-    background: var(--shirt-color, #4CAF50);
-    filter: brightness(1.15);
-    top: -2px;
+    width: 90px;
+    height: 28px;
+    top: -18px;
+    left: -5px;
+    transform-style: preserve-3d;
+    z-index: 20;
 }
 
-.left-collar {
-    left: 18px;
-    transform: rotate(-15deg);
-    border-radius: 0 0 0 8px;
+.cap-face {
+    position: absolute;
 }
 
-.right-collar {
-    right: 18px;
-    transform: rotate(15deg);
-    border-radius: 0 0 8px 0;
+.cap-face.front {
+    width: 90px;
+    height: 28px;
+    background: var(--cap-color, #8D4E3B);
+    transform: translateZ(44px);
+    border-radius: 10px 10px 0 0;
+}
+
+.cap-face.back {
+    width: 90px;
+    height: 28px;
+    background: var(--cap-color, #8D4E3B);
+    filter: brightness(0.75);
+    transform: rotateY(180deg) translateZ(44px);
+    border-radius: 10px 10px 0 0;
+}
+
+.cap-face.left {
+    width: 88px;
+    height: 28px;
+    background: var(--cap-color, #8D4E3B);
+    filter: brightness(0.85);
+    transform: rotateY(-90deg) translateZ(45px);
+    border-radius: 10px 10px 0 0;
+}
+
+.cap-face.right {
+    width: 88px;
+    height: 28px;
+    background: var(--cap-color, #8D4E3B);
+    filter: brightness(0.85);
+    transform: rotateY(90deg) translateZ(45px);
+    border-radius: 10px 10px 0 0;
+}
+
+.cap-face.top {
+    width: 90px;
+    height: 88px;
+    background: var(--cap-color, #8D4E3B);
+    filter: brightness(1.1);
+    transform: rotateX(90deg) translateZ(18px);
+    border-radius: 50%;
+}
+
+.cap-brim {
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background: var(--cap-color, #8D4E3B);
+    filter: brightness(0.7);
+    bottom: 0;
+    left: -5px;
+    transform: translateZ(46px) rotateX(-15deg);
+    transform-origin: top center;
+    border-radius: 6px 6px 50% 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 /* === Arms === */
@@ -353,13 +412,13 @@
 }
 
 .arm-face.front {
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     transform: translateZ(14px);
     border-radius: 6px;
 }
 
 .arm-face.back {
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.8);
     transform: rotateY(180deg) translateZ(14px);
     border-radius: 6px;
@@ -367,28 +426,28 @@
 
 .arm-face.left {
     width: 28px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.85);
     transform: rotateY(-90deg) translateZ(14px);
 }
 
 .arm-face.right {
     width: 28px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(0.85);
     transform: rotateY(90deg) translateZ(14px);
 }
 
 .arm-face.top {
     height: 28px;
-    background: var(--shirt-color, #4CAF50);
+    background: var(--shirt-color, #333);
     filter: brightness(1.05);
     transform: rotateX(90deg) translateZ(14px);
 }
 
 .arm-face.bottom {
     height: 28px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     transform: rotateX(-90deg) translateZ(66px);
 }
 
@@ -410,39 +469,39 @@
 }
 
 .hand-face.front {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     transform: translateZ(12px);
 }
 
 .hand-face.back {
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.85);
     transform: rotateY(180deg) translateZ(12px);
 }
 
 .hand-face.left {
     width: 24px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.9);
     transform: rotateY(-90deg) translateZ(12px);
 }
 
 .hand-face.right {
     width: 24px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.9);
     transform: rotateY(90deg) translateZ(12px);
 }
 
 .hand-face.top {
     height: 24px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     transform: rotateX(90deg) translateZ(12px);
 }
 
 .hand-face.bottom {
     height: 24px;
-    background: var(--skin-color, #FFCC80);
+    background: var(--skin-color, #FFAB91);
     filter: brightness(0.85);
     transform: rotateX(-90deg) translateZ(12px);
 }
