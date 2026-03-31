@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIXX - הדמות שלי בתלת ממד</title>
+    <link rel="stylesheet" href="optimized-styles.css">
+    <link rel="stylesheet" href="avatar-3d.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-content container">
+            <div class="logo-header">WIXX</div>
+            <p style="font-size: 1.2rem; opacity: 0.9;">הדמות התלת ממדית שלי</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Avatar Section -->
+        <section class="avatar-section">
+            <h2 class="section-title">הדמות שלי</h2>
+            <p class="section-subtitle">הזיזו את העכבר מעל הדמות כדי לסובב אותה</p>
+
+            <div class="avatar-stage" id="avatarStage">
+                <div class="avatar-scene" id="avatarScene">
+                    <div class="avatar-body">
+
+                        <!-- Head -->
+                        <div class="avatar-head">
+                            <div class="head-face front">
+                                <div class="eye left-eye">
+                                    <div class="pupil"></div>
+                                </div>
+                                <div class="eye right-eye">
+                                    <div class="pupil"></div>
+                                </div>
+                                <div class="mouth"></div>
+                                <div class="nose"></div>
+                            </div>
+                            <div class="head-face back"></div>
+                            <div class="head-face left"></div>
+                            <div class="head-face right"></div>
+                            <div class="head-face top">
+                                <div class="hair"></div>
+                            </div>
+                            <div class="head-face bottom"></div>
+
+                            <!-- Hair -->
+                            <div class="hair-top"></div>
+                            <div class="hair-side hair-left"></div>
+                            <div class="hair-side hair-right"></div>
+                        </div>
+
+                        <!-- Neck -->
+                        <div class="avatar-neck"></div>
+
+                        <!-- Torso -->
+                        <div class="avatar-torso">
+                            <div class="torso-face front">
+                                <div class="shirt-design"></div>
+                                <div class="shirt-collar left-collar"></div>
+                                <div class="shirt-collar right-collar"></div>
+                            </div>
+                            <div class="torso-face back"></div>
+                            <div class="torso-face left"></div>
+                            <div class="torso-face right"></div>
+                            <div class="torso-face top"></div>
+                            <div class="torso-face bottom"></div>
+                        </div>
+
+                        <!-- Left Arm -->
+                        <div class="avatar-arm left-arm">
+                            <div class="arm-face front"></div>
+                            <div class="arm-face back"></div>
+                            <div class="arm-face left"></div>
+                            <div class="arm-face right"></div>
+                            <div class="arm-face top"></div>
+                            <div class="arm-face bottom"></div>
+                            <!-- Hand -->
+                            <div class="avatar-hand">
+                                <div class="hand-face front"></div>
+                                <div class="hand-face back"></div>
+                                <div class="hand-face left"></div>
+                                <div class="hand-face right"></div>
+                                <div class="hand-face top"></div>
+                                <div class="hand-face bottom"></div>
+                            </div>
+                        </div>
+
+                        <!-- Right Arm -->
+                        <div class="avatar-arm right-arm">
+                            <div class="arm-face front"></div>
+                            <div class="arm-face back"></div>
+                            <div class="arm-face left"></div>
+                            <div class="arm-face right"></div>
+                            <div class="arm-face top"></div>
+                            <div class="arm-face bottom"></div>
+                            <!-- Hand -->
+                            <div class="avatar-hand">
+                                <div class="hand-face front"></div>
+                                <div class="hand-face back"></div>
+                                <div class="hand-face left"></div>
+                                <div class="hand-face right"></div>
+                                <div class="hand-face top"></div>
+                                <div class="hand-face bottom"></div>
+                            </div>
+                        </div>
+
+                        <!-- Left Leg -->
+                        <div class="avatar-leg left-leg">
+                            <div class="leg-face front"></div>
+                            <div class="leg-face back"></div>
+                            <div class="leg-face left"></div>
+                            <div class="leg-face right"></div>
+                            <div class="leg-face top"></div>
+                            <div class="leg-face bottom"></div>
+                            <!-- Shoe -->
+                            <div class="avatar-shoe">
+                                <div class="shoe-face front"></div>
+                                <div class="shoe-face back"></div>
+                                <div class="shoe-face left"></div>
+                                <div class="shoe-face right"></div>
+                                <div class="shoe-face top"></div>
+                                <div class="shoe-face bottom"></div>
+                            </div>
+                        </div>
+
+                        <!-- Right Leg -->
+                        <div class="avatar-leg right-leg">
+                            <div class="leg-face front"></div>
+                            <div class="leg-face back"></div>
+                            <div class="leg-face left"></div>
+                            <div class="leg-face right"></div>
+                            <div class="leg-face top"></div>
+                            <div class="leg-face bottom"></div>
+                            <!-- Shoe -->
+                            <div class="avatar-shoe">
+                                <div class="shoe-face front"></div>
+                                <div class="shoe-face back"></div>
+                                <div class="shoe-face left"></div>
+                                <div class="shoe-face right"></div>
+                                <div class="shoe-face top"></div>
+                                <div class="shoe-face bottom"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Shadow -->
+                <div class="avatar-shadow"></div>
+            </div>
+
+            <!-- Controls -->
+            <div class="avatar-controls">
+                <button class="btn control-btn" data-action="wave">👋 נופף</button>
+                <button class="btn control-btn" data-action="jump">🦘 קפוץ</button>
+                <button class="btn control-btn" data-action="spin">🔄 סיבוב</button>
+                <button class="btn control-btn" data-action="dance">💃 רקוד</button>
+            </div>
+
+            <!-- Customization -->
+            <div class="avatar-customizer">
+                <h3>התאמה אישית</h3>
+                <div class="customizer-row">
+                    <label>צבע חולצה:</label>
+                    <div class="color-options" data-target="shirt">
+                        <span class="color-swatch" style="background:#4CAF50" data-color="#4CAF50"></span>
+                        <span class="color-swatch" style="background:#2196F3" data-color="#2196F3"></span>
+                        <span class="color-swatch" style="background:#F44336" data-color="#F44336"></span>
+                        <span class="color-swatch" style="background:#FF9800" data-color="#FF9800"></span>
+                        <span class="color-swatch" style="background:#9C27B0" data-color="#9C27B0"></span>
+                        <span class="color-swatch" style="background:#333" data-color="#333"></span>
+                    </div>
+                </div>
+                <div class="customizer-row">
+                    <label>צבע שיער:</label>
+                    <div class="color-options" data-target="hair">
+                        <span class="color-swatch" style="background:#3E2723" data-color="#3E2723"></span>
+                        <span class="color-swatch" style="background:#212121" data-color="#212121"></span>
+                        <span class="color-swatch" style="background:#FF8F00" data-color="#FF8F00"></span>
+                        <span class="color-swatch" style="background:#D32F2F" data-color="#D32F2F"></span>
+                        <span class="color-swatch" style="background:#FDD835" data-color="#FDD835"></span>
+                    </div>
+                </div>
+                <div class="customizer-row">
+                    <label>צבע מכנסיים:</label>
+                    <div class="color-options" data-target="pants">
+                        <span class="color-swatch" style="background:#1565C0" data-color="#1565C0"></span>
+                        <span class="color-swatch" style="background:#212121" data-color="#212121"></span>
+                        <span class="color-swatch" style="background:#5D4037" data-color="#5D4037"></span>
+                        <span class="color-swatch" style="background:#37474F" data-color="#37474F"></span>
+                        <span class="color-swatch" style="background:#F5F5F5" data-color="#F5F5F5"></span>
+                    </div>
+                </div>
+                <div class="customizer-row">
+                    <label>צבע עור:</label>
+                    <div class="color-options" data-target="skin">
+                        <span class="color-swatch" style="background:#FFCC80" data-color="#FFCC80"></span>
+                        <span class="color-swatch" style="background:#FFAB91" data-color="#FFAB91"></span>
+                        <span class="color-swatch" style="background:#D7CCC8" data-color="#D7CCC8"></span>
+                        <span class="color-swatch" style="background:#8D6E63" data-color="#8D6E63"></span>
+                        <span class="color-swatch" style="background:#4E342E" data-color="#4E342E"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="avatar-3d.js"></script>
+</body>
+</html>

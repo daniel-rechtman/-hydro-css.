@@ -1,0 +1,766 @@
+/* ===== 3D Avatar Styles ===== */
+
+.avatar-section {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+}
+
+/* === Stage === */
+.avatar-stage {
+    width: 400px;
+    height: 500px;
+    margin: 0 auto 40px;
+    perspective: 800px;
+    position: relative;
+    cursor: grab;
+}
+
+.avatar-stage:active {
+    cursor: grabbing;
+}
+
+.avatar-scene {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s ease-out;
+}
+
+.avatar-body {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: idle-bounce 2s ease-in-out infinite;
+}
+
+@keyframes idle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* === Shadow === */
+.avatar-shadow {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: shadow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes shadow-pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
+    50% { transform: translateX(-50%) scale(0.85); opacity: 0.4; }
+}
+
+/* === Head === */
+.avatar-head {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: -160px;
+    left: -40px;
+    transform-style: preserve-3d;
+}
+
+.head-face {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.head-face.front {
+    background: var(--skin-color, #FFCC80);
+    transform: translateZ(40px);
+    border-radius: 8px 8px 12px 12px;
+}
+
+.head-face.back {
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.85);
+    transform: rotateY(180deg) translateZ(40px);
+    border-radius: 8px;
+}
+
+.head-face.left {
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.9);
+    width: 80px;
+    transform: rotateY(-90deg) translateZ(40px);
+}
+
+.head-face.right {
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.9);
+    width: 80px;
+    transform: rotateY(90deg) translateZ(40px);
+}
+
+.head-face.top {
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(1.05);
+    transform: rotateX(90deg) translateZ(40px);
+}
+
+.head-face.bottom {
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.8);
+    transform: rotateX(-90deg) translateZ(40px);
+}
+
+/* === Eyes === */
+.eye {
+    position: absolute;
+    width: 18px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 28px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.left-eye { left: 14px; }
+.right-eye { right: 14px; }
+
+.pupil {
+    width: 10px;
+    height: 10px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out;
+}
+
+.pupil::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+
+/* === Mouth === */
+.mouth {
+    position: absolute;
+    width: 20px;
+    height: 8px;
+    background: #E57373;
+    border-radius: 0 0 10px 10px;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s;
+}
+
+/* === Nose === */
+.nose {
+    position: absolute;
+    width: 8px;
+    height: 6px;
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.88);
+    border-radius: 50%;
+    top: 44px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(2px);
+}
+
+/* === Hair === */
+.hair-top {
+    position: absolute;
+    width: 88px;
+    height: 30px;
+    background: var(--hair-color, #3E2723);
+    top: -8px;
+    left: -4px;
+    border-radius: 12px 12px 0 0;
+    transform: translateZ(42px);
+    z-index: 10;
+}
+
+.hair-side {
+    position: absolute;
+    width: 12px;
+    height: 50px;
+    background: var(--hair-color, #3E2723);
+    top: -5px;
+}
+
+.hair-left {
+    left: -6px;
+    border-radius: 8px 0 0 8px;
+    transform: rotateY(-90deg) translateZ(46px);
+}
+
+.hair-right {
+    right: -6px;
+    border-radius: 0 8px 8px 0;
+    transform: rotateY(90deg) translateZ(46px);
+}
+
+/* === Neck === */
+.avatar-neck {
+    position: absolute;
+    width: 30px;
+    height: 16px;
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.9);
+    top: -80px;
+    left: -15px;
+    transform-style: preserve-3d;
+}
+
+/* === Torso === */
+.avatar-torso {
+    position: absolute;
+    width: 90px;
+    height: 100px;
+    top: -64px;
+    left: -45px;
+    transform-style: preserve-3d;
+}
+
+.torso-face {
+    position: absolute;
+    width: 90px;
+    height: 100px;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.torso-face.front {
+    background: var(--shirt-color, #4CAF50);
+    transform: translateZ(25px);
+    border-radius: 4px 4px 6px 6px;
+    overflow: hidden;
+}
+
+.torso-face.back {
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.8);
+    transform: rotateY(180deg) translateZ(25px);
+}
+
+.torso-face.left {
+    width: 50px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.85);
+    transform: rotateY(-90deg) translateZ(45px);
+}
+
+.torso-face.right {
+    width: 50px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.85);
+    transform: rotateY(90deg) translateZ(45px);
+}
+
+.torso-face.top {
+    height: 50px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(1.05);
+    transform: rotateX(90deg) translateZ(25px);
+}
+
+.torso-face.bottom {
+    height: 50px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.75);
+    transform: rotateX(-90deg) translateZ(75px);
+}
+
+/* Shirt design */
+.shirt-design {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.shirt-collar {
+    position: absolute;
+    width: 20px;
+    height: 15px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(1.15);
+    top: -2px;
+}
+
+.left-collar {
+    left: 18px;
+    transform: rotate(-15deg);
+    border-radius: 0 0 0 8px;
+}
+
+.right-collar {
+    right: 18px;
+    transform: rotate(15deg);
+    border-radius: 0 0 8px 0;
+}
+
+/* === Arms === */
+.avatar-arm {
+    position: absolute;
+    width: 28px;
+    height: 80px;
+    top: -55px;
+    transform-style: preserve-3d;
+    transform-origin: top center;
+    transition: transform 0.4s ease;
+}
+
+.left-arm {
+    left: -68px;
+}
+
+.right-arm {
+    right: -68px;
+}
+
+.arm-face {
+    position: absolute;
+    width: 28px;
+    height: 80px;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.arm-face.front {
+    background: var(--shirt-color, #4CAF50);
+    transform: translateZ(14px);
+    border-radius: 6px;
+}
+
+.arm-face.back {
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.8);
+    transform: rotateY(180deg) translateZ(14px);
+    border-radius: 6px;
+}
+
+.arm-face.left {
+    width: 28px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.85);
+    transform: rotateY(-90deg) translateZ(14px);
+}
+
+.arm-face.right {
+    width: 28px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(0.85);
+    transform: rotateY(90deg) translateZ(14px);
+}
+
+.arm-face.top {
+    height: 28px;
+    background: var(--shirt-color, #4CAF50);
+    filter: brightness(1.05);
+    transform: rotateX(90deg) translateZ(14px);
+}
+
+.arm-face.bottom {
+    height: 28px;
+    background: var(--skin-color, #FFCC80);
+    transform: rotateX(-90deg) translateZ(66px);
+}
+
+/* === Hands === */
+.avatar-hand {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    bottom: -22px;
+    left: 2px;
+    transform-style: preserve-3d;
+}
+
+.hand-face {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+}
+
+.hand-face.front {
+    background: var(--skin-color, #FFCC80);
+    transform: translateZ(12px);
+}
+
+.hand-face.back {
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.85);
+    transform: rotateY(180deg) translateZ(12px);
+}
+
+.hand-face.left {
+    width: 24px;
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.9);
+    transform: rotateY(-90deg) translateZ(12px);
+}
+
+.hand-face.right {
+    width: 24px;
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.9);
+    transform: rotateY(90deg) translateZ(12px);
+}
+
+.hand-face.top {
+    height: 24px;
+    background: var(--skin-color, #FFCC80);
+    transform: rotateX(90deg) translateZ(12px);
+}
+
+.hand-face.bottom {
+    height: 24px;
+    background: var(--skin-color, #FFCC80);
+    filter: brightness(0.85);
+    transform: rotateX(-90deg) translateZ(12px);
+}
+
+/* === Legs === */
+.avatar-leg {
+    position: absolute;
+    width: 32px;
+    height: 90px;
+    top: 36px;
+    transform-style: preserve-3d;
+    transform-origin: top center;
+    transition: transform 0.4s ease;
+}
+
+.left-leg {
+    left: -36px;
+}
+
+.right-leg {
+    right: -36px;
+}
+
+.leg-face {
+    position: absolute;
+    width: 32px;
+    height: 90px;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.leg-face.front {
+    background: var(--pants-color, #1565C0);
+    transform: translateZ(16px);
+    border-radius: 4px;
+}
+
+.leg-face.back {
+    background: var(--pants-color, #1565C0);
+    filter: brightness(0.8);
+    transform: rotateY(180deg) translateZ(16px);
+}
+
+.leg-face.left {
+    width: 32px;
+    background: var(--pants-color, #1565C0);
+    filter: brightness(0.85);
+    transform: rotateY(-90deg) translateZ(16px);
+}
+
+.leg-face.right {
+    width: 32px;
+    background: var(--pants-color, #1565C0);
+    filter: brightness(0.85);
+    transform: rotateY(90deg) translateZ(16px);
+}
+
+.leg-face.top {
+    height: 32px;
+    background: var(--pants-color, #1565C0);
+    transform: rotateX(90deg) translateZ(16px);
+}
+
+.leg-face.bottom {
+    height: 32px;
+    background: var(--pants-color, #1565C0);
+    filter: brightness(0.75);
+    transform: rotateX(-90deg) translateZ(74px);
+}
+
+/* === Shoes === */
+.avatar-shoe {
+    position: absolute;
+    width: 36px;
+    height: 16px;
+    bottom: -16px;
+    left: -2px;
+    transform-style: preserve-3d;
+}
+
+.shoe-face {
+    position: absolute;
+    width: 36px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.shoe-face.front {
+    background: #424242;
+    transform: translateZ(20px);
+    border-radius: 4px 4px 6px 6px;
+}
+
+.shoe-face.back {
+    background: #333;
+    transform: rotateY(180deg) translateZ(16px);
+}
+
+.shoe-face.left {
+    width: 36px;
+    background: #3a3a3a;
+    transform: rotateY(-90deg) translateZ(18px);
+}
+
+.shoe-face.right {
+    width: 36px;
+    background: #3a3a3a;
+    transform: rotateY(90deg) translateZ(18px);
+}
+
+.shoe-face.top {
+    height: 36px;
+    background: #4a4a4a;
+    transform: rotateX(90deg) translateZ(8px);
+}
+
+.shoe-face.bottom {
+    height: 36px;
+    background: #222;
+    transform: rotateX(-90deg) translateZ(8px);
+}
+
+/* === Animations === */
+
+/* Wave */
+.avatar-body.wave .right-arm {
+    animation: wave-anim 1s ease-in-out;
+}
+
+@keyframes wave-anim {
+    0% { transform: rotateZ(0); }
+    20% { transform: rotateZ(-150deg) rotateX(20deg); }
+    40% { transform: rotateZ(-130deg) rotateX(20deg); }
+    60% { transform: rotateZ(-150deg) rotateX(20deg); }
+    80% { transform: rotateZ(-130deg) rotateX(20deg); }
+    100% { transform: rotateZ(0); }
+}
+
+/* Jump */
+.avatar-body.jump {
+    animation: jump-anim 0.6s ease-in-out !important;
+}
+
+@keyframes jump-anim {
+    0% { transform: translateY(0); }
+    20% { transform: translateY(10px) scaleY(0.9); }
+    50% { transform: translateY(-80px) scaleY(1.05); }
+    80% { transform: translateY(5px) scaleY(0.95); }
+    100% { transform: translateY(0); }
+}
+
+/* Spin */
+.avatar-body.spin {
+    animation: spin-anim 0.8s ease-in-out !important;
+}
+
+@keyframes spin-anim {
+    0% { transform: rotateY(0); }
+    100% { transform: rotateY(720deg); }
+}
+
+/* Dance */
+.avatar-body.dance {
+    animation: dance-anim 1.5s ease-in-out !important;
+}
+
+.avatar-body.dance .left-arm {
+    animation: dance-arm-l 0.5s ease-in-out infinite alternate;
+}
+
+.avatar-body.dance .right-arm {
+    animation: dance-arm-r 0.5s ease-in-out infinite alternate;
+}
+
+.avatar-body.dance .left-leg {
+    animation: dance-leg-l 0.5s ease-in-out infinite alternate;
+}
+
+.avatar-body.dance .right-leg {
+    animation: dance-leg-r 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes dance-anim {
+    0%, 100% { transform: translateY(0) rotateZ(0); }
+    25% { transform: translateY(-15px) rotateZ(-5deg); }
+    50% { transform: translateY(0) rotateZ(0); }
+    75% { transform: translateY(-15px) rotateZ(5deg); }
+}
+
+@keyframes dance-arm-l {
+    0% { transform: rotateZ(20deg) rotateX(-20deg); }
+    100% { transform: rotateZ(-60deg) rotateX(30deg); }
+}
+
+@keyframes dance-arm-r {
+    0% { transform: rotateZ(-60deg) rotateX(30deg); }
+    100% { transform: rotateZ(20deg) rotateX(-20deg); }
+}
+
+@keyframes dance-leg-l {
+    0% { transform: rotateX(-15deg); }
+    100% { transform: rotateX(15deg); }
+}
+
+@keyframes dance-leg-r {
+    0% { transform: rotateX(15deg); }
+    100% { transform: rotateX(-15deg); }
+}
+
+/* Happy mouth */
+.avatar-body.wave .mouth,
+.avatar-body.dance .mouth {
+    width: 26px;
+    height: 12px;
+    border-radius: 0 0 14px 14px;
+}
+
+/* === Controls === */
+.avatar-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 25px;
+    font-family: 'Heebo', sans-serif;
+}
+
+/* === Customizer === */
+.avatar-customizer {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+}
+
+.avatar-customizer h3 {
+    margin-bottom: 20px;
+    color: var(--dark-color);
+    font-size: 1.3rem;
+}
+
+.customizer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.customizer-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.customizer-row label {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.color-options {
+    display: flex;
+    gap: 8px;
+}
+
+.color-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.color-swatch:hover {
+    transform: scale(1.2);
+    border-color: rgba(0,0,0,0.3);
+}
+
+.color-swatch.active {
+    border-color: var(--dark-color);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--dark-color);
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+    .avatar-stage {
+        width: 300px;
+        height: 400px;
+        perspective: 600px;
+    }
+
+    .avatar-controls {
+        gap: 8px;
+    }
+
+    .control-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .customizer-row {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .avatar-customizer {
+        margin: 0 10px;
+    }
+}
